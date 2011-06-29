@@ -1,0 +1,8 @@
+bin
+obj
+*.user
+*.suo
+*.cache
+_ReSharper.jQueryFileUpload
+/jQueryFileUpload/obj
+/jQueryFileUpload/bin
