@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.AccessControl;
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -61,25 +62,65 @@ namespace jQueryUploadTest {
 
 		private void UploadFile (HttpContext context) {
 			var statuses = new List<FilesStatus>();
+			var headers = context.Request.Headers;
 
+			if (string.IsNullOrEmpty(headers["X-File-Name"])) {
+				UploadWholeFile(context, statuses);
+			} else {
+				UploadPartialFile(headers["X-File-Name"], context, statuses);
+			}
+
+
+			WriteJsonIframeSafe(context, statuses);
+		}
+
+		private void UploadPartialFile (string fileName, HttpContext context, List<FilesStatus> statuses) {
+			if (context.Request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
+			var inputStream = context.Request.Files[0].InputStream;
+			var fullName = ingestPath + Path.GetFileName(fileName);
+
+			using (var fs = new FileStream(fullName, FileMode.Append, FileAccess.Write)) {
+				var buffer = new byte[1024];
+
+				var l = inputStream.Read(buffer, 0, 1024);
+				while (l > 0) {
+					fs.Write(buffer,0,l);
+					l = inputStream.Read(buffer, 0, 1024);
+				}
+				fs.Flush();
+				fs.Close();
+			}
+
+			statuses.Add(new FilesStatus {
+				thumbnail_url = "Thumbnail.ashx?f=" + fileName,
+				url = "Upload.ashx?f=" + fileName,
+				name = fileName,
+				size = (int)(new FileInfo(fullName)).Length,
+				type = "image/png",
+				delete_url = "Upload.ashx?f=" + fileName,
+				delete_type = "DELETE",
+				progress = "1.0"
+			});
+
+		}
+
+		private void UploadWholeFile(HttpContext context, List<FilesStatus> statuses) {
 			for (int i = 0; i < context.Request.Files.Count; i++) {
 				var file = context.Request.Files[i];
 				file.SaveAs(ingestPath + Path.GetFileName(file.FileName));
 				var fname = Path.GetFileName(file.FileName);
 				statuses.Add(new FilesStatus
-				{
-					thumbnail_url = "Thumbnail.ashx?f=" + fname,
-					url = "Upload.ashx?f=" + fname,
-					name = fname,
-					size = file.ContentLength,
-					type = "image/png",
-					delete_url = "Upload.ashx?f=" + fname,
-					delete_type = "DELETE",
-					progress = "1.0"
-				});
+				             {
+				             	thumbnail_url = "Thumbnail.ashx?f=" + fname,
+				             	url = "Upload.ashx?f=" + fname,
+				             	name = fname,
+				             	size = file.ContentLength,
+				             	type = "image/png",
+				             	delete_url = "Upload.ashx?f=" + fname,
+				             	delete_type = "DELETE",
+				             	progress = "1.0"
+				             });
 			}
-
-			WriteJsonIframeSafe(context, statuses);
 		}
 
 		private void WriteJsonIframeSafe(HttpContext context, List<FilesStatus> statuses) {

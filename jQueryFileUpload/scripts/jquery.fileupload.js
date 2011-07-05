@@ -64,7 +64,9 @@
             // to a preferred maximum chunk size. If set to 0, null or undefined,
             // or the browser does not support the required Blob API, files will
             // be uploaded as a whole.
-            maxChunkSize: undefined,
+            maxChunkSize: 2147480000, // just short of web.config maximum setting
+            //            102400 <-- 100 KB
+            //        2147482624 <-- max size for .Net 2.0 x64 upload, ~2GiB
             // When a non-multipart upload or a chunked multipart upload has been
             // aborted, this option can be used to resume the upload by setting
             // it to the size of the already uploaded bytes. This option is most

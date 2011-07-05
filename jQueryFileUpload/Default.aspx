@@ -31,11 +31,11 @@
        <%-- <button type="submit" class="start">Start upload</button>
             <button type="reset" class="cancel">Cancel upload</button> --%>
             <button type="button" class="delete">Delete all files</button>
+			<div class="fileupload-progressbar"></div>
         </div>
     </form>
     <div class="fileupload-content">
         <table class="files"></table>
-        <div class="fileupload-progressbar"></div>
     </div>
 </div>
 <script id="template-upload" type="text/x-jquery-tmpl">
