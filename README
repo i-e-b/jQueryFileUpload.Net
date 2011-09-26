@@ -1,2 +1,1 @@
 A very basic framework around jQueryFileUpload scripts, to host in ASP.Net.
-Chunked upload not yet supported, also needs to be made modular -- should be enough to get started.
