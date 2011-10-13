@@ -47,7 +47,7 @@ namespace WebInterface.General.Handlers
         }
 
         private readonly JavaScriptSerializer js = new JavaScriptSerializer();
-        private const string HandlerPath = "/General/Handlers/";
+        private const string HandlerPath = "/";
         private string ImagePath;
         private string ThumbPath;
         
@@ -57,8 +57,8 @@ namespace WebInterface.General.Handlers
         public void ProcessRequest(HttpContext context)
         {
             // Set the image paths
-            ImagePath = context.Server.MapPath("~/Content/UserContent/Images/");
-            ThumbPath = context.Server.MapPath("~/Content/UserContent/Images/");
+            ImagePath = context.Server.MapPath("~/images/");
+            ThumbPath = context.Server.MapPath("~/images/");
 
             context.Response.AddHeader("Pragma", "no-cache");
             context.Response.AddHeader("Cache-Control", "private, no-cache");
