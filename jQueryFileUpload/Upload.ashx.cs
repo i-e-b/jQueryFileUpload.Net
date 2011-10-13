@@ -58,7 +58,7 @@ namespace WebInterface.General.Handlers
         {
             // Set the image paths
             ImagePath = context.Server.MapPath("~/Content/UserContent/Images/");
-            ThumbPath = context.Server.MapPath("~/Content/UserContent/Images/Thumbs/");
+            ThumbPath = context.Server.MapPath("~/Content/UserContent/Images/");
 
             context.Response.AddHeader("Pragma", "no-cache");
             context.Response.AddHeader("Cache-Control", "private, no-cache");
