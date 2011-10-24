@@ -4,3 +4,4 @@ TODO:
 =====
  - Ability to add placeholders for required dependencies (like the components of a .ism file)
  - Callbacks for current status (for post-upload processing, like transcodes)
+ - Section divisions by classifications (different targets, like documents, videos etc)
