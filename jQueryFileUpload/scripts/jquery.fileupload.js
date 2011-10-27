@@ -608,9 +608,9 @@
                 dataTransfer = e.dataTransfer = e.originalEvent.dataTransfer;
             if (that._trigger('dragover', e) === false) {
                 return false;
-            }
-            if (dataTransfer) {
-                dataTransfer.dropEffect = dataTransfer.effectAllowed = 'copy';
+               }
+            if (dataTransfer && dataTransfer.dropEffect) {
+                dataTransfer.dropEffect = /*dataTransfer.effectAllowed =*/ 'copy';
             }
             e.preventDefault();
         },

@@ -144,20 +144,14 @@ namespace jQueryUploadTest {
 		}
 
 		private void ListCurrentFiles (HttpContext context) {
-			var FileList = new List<FilesStatus>();
-
-			/*var files = 
+			var files =
 				new DirectoryInfo(StorageRoot)
-				.GetFiles("*", SearchOption.TopDirectoryOnly)
-				.Where(f=>f.Attributes.HasFlag(FileAttributes.Hidden));*/
+					.GetFiles("*", SearchOption.TopDirectoryOnly)
+					.Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
+					.Select(f => new FilesStatus(f))
+					.ToArray();
 
-			var names = Directory
-				.GetFiles(StorageRoot, "*", SearchOption.TopDirectoryOnly);
-
-			foreach (var name in names)
-				FileList.Add(new FilesStatus(new FileInfo(name)));
-
-			string jsonObj = js.Serialize(FileList.ToArray());
+			string jsonObj = js.Serialize(files);
 			context.Response.AddHeader("Content-Disposition", "inline, filename=\"files.json\"");
 			context.Response.Write(jsonObj);
 			context.Response.ContentType = "application/json";
