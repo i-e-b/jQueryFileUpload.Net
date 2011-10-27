@@ -59,16 +59,17 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FilesStatus.ashx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Thumbnail.ashx.cs">
       <DependentUpon>Thumbnail.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Upload.ashx.cs">
-      <DependentUpon>Upload.ashx</DependentUpon>
+    <Compile Include="FileTransferHandler.ashx.cs">
+      <DependentUpon>FileTransferHandler.ashx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Upload.ashx" />
+    <Content Include="FileTransferHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\default_thumb.jpg" />

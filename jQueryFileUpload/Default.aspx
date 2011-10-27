@@ -22,7 +22,7 @@
 </head>
 <body>
 <div id="fileupload">
-    <form action="Upload.ashx" method="POST" enctype="multipart/form-data">
+    <form action="FileTransferHandler.ashx" method="POST" enctype="multipart/form-data">
         <div class="fileupload-buttonbar">
             <label class="fileinput-button">
                 <span>Add files...</span>

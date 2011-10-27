@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -7,52 +9,15 @@ namespace jQueryUploadTest {
 	/// <summary>
 	/// Summary description for ImageUpload
 	/// </summary>
-	public class ImageUpload : IHttpHandler {
-		/// <summary>
-		/// Uploaded Files
-		/// </summary>
-		public class FilesStatus {
-			public string name { get; set; }
-			public string type { get; set; }
-			public int size { get; set; }
-			public string progress { get; set; }
-			public string url { get; set; }
-			public string thumbnail_url { get; set; }
-			public string delete_url { get; set; }
-			public string delete_type { get; set; }
-			public string error { get; set; }
-
-			public FilesStatus () { }
-
-			public FilesStatus (FileInfo fileInfo) { this.SetValues(fileInfo.Name, (int)fileInfo.Length); }
-
-			public FilesStatus (string FileName, int FileLength) { this.SetValues(FileName, FileLength); }
-
-			private void SetValues (string FileName, int FileLength) {
-				name = FileName;
-				type = "image/png";
-				size = FileLength;
-				progress = "1.0";
-				url = HandlerPath + "Upload.ashx?f=" + FileName;
-				thumbnail_url = HandlerPath + "Thumbnail.ashx?f=" + FileName;
-				delete_url = HandlerPath + "Upload.ashx?f=" + FileName;
-				delete_type = "DELETE";
-			}
-		}
-
+	public class FileTransferHandler : IHttpHandler {
 		private readonly JavaScriptSerializer js = new JavaScriptSerializer();
-		private const string HandlerPath = "/";
-		private string ImagePath;
-		private string ThumbPath;
 
+		public string StorageRoot {
+			get { return ConfigurationManager.AppSettings["StorageRoot"]; }
+		}
 		public bool IsReusable { get { return false; } }
 
-		// Process incoming request
 		public void ProcessRequest (HttpContext context) {
-			// Set the image paths
-			ImagePath = context.Server.MapPath("~/images/");
-			ThumbPath = context.Server.MapPath("~/images/");
-
 			context.Response.AddHeader("Pragma", "no-cache");
 			context.Response.AddHeader("Cache-Control", "private, no-cache");
 
@@ -64,15 +29,21 @@ namespace jQueryUploadTest {
 			switch (context.Request.HttpMethod) {
 				case "HEAD":
 				case "GET":
-					ServeFile(context);
+					if (GivenFilename(context)) DeliverFile(context);
+					else ListCurrentFiles(context);
 					break;
 
 				case "POST":
+				case "PUT":
 					UploadFile(context);
 					break;
 
 				case "DELETE":
 					DeleteFile(context);
+					break;
+
+				case "OPTIONS":
+					ReturnOptions(context);
 					break;
 
 				default:
@@ -82,9 +53,14 @@ namespace jQueryUploadTest {
 			}
 		}
 
+		private void ReturnOptions(HttpContext context) {
+			context.Response.AddHeader("Allow", "DELETE,GET,HEAD,POST,PUT,OPTIONS");
+			context.Response.StatusCode = 200;
+		}
+
 		// Delete file from the server
 		private void DeleteFile (HttpContext context) {
-			var filePath = ImagePath + context.Request["f"];
+			var filePath = StorageRoot + context.Request["f"];
 			if (File.Exists(filePath)) {
 				File.Delete(filePath);
 			}
@@ -108,7 +84,7 @@ namespace jQueryUploadTest {
 		private void UploadPartialFile (string fileName, HttpContext context, List<FilesStatus> statuses) {
 			if (context.Request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
 			var inputStream = context.Request.Files[0].InputStream;
-			var fullName = ImagePath + Path.GetFileName(fileName);
+			var fullName = StorageRoot + Path.GetFileName(fileName);
 
 			using (var fs = new FileStream(fullName, FileMode.Append, FileAccess.Write)) {
 				var buffer = new byte[1024];
@@ -128,7 +104,7 @@ namespace jQueryUploadTest {
 		private void UploadWholeFile (HttpContext context, List<FilesStatus> statuses) {
 			for (int i = 0; i < context.Request.Files.Count; i++) {
 				var file = context.Request.Files[i];
-				file.SaveAs(ImagePath + Path.GetFileName(file.FileName));
+				file.SaveAs(StorageRoot + Path.GetFileName(file.FileName));
 
 				string fullName = Path.GetFileName(file.FileName);
 				statuses.Add(new FilesStatus(fullName, file.ContentLength));
@@ -150,25 +126,33 @@ namespace jQueryUploadTest {
 			context.Response.Write(jsonObj);
 		}
 
-		private void ServeFile (HttpContext context) {
-			if (string.IsNullOrEmpty(context.Request["f"])) ListCurrentFiles(context);
-			else DeliverFile(context);
+		private bool GivenFilename (HttpContext context) {
+			return !string.IsNullOrEmpty(context.Request["f"]);
 		}
 
 		private void DeliverFile (HttpContext context) {
-			string filePath = ThumbPath + context.Request["f"];
+			var filename = context.Request["f"];
+			var filePath = StorageRoot + filename;
 
 			if (File.Exists(filePath)) {
+				context.Response.AddHeader("Content-Disposition", "attachment, filename=\"" + filename + "\"");
 				context.Response.ContentType = "application/octet-stream";
+				context.Response.ClearContent();
 				context.Response.WriteFile(filePath);
-				context.Response.AddHeader("Content-Disposition", "attachment, filename=\"" + context.Request["f"] + "\"");
 			} else
 				context.Response.StatusCode = 404;
 		}
 
 		private void ListCurrentFiles (HttpContext context) {
 			var FileList = new List<FilesStatus>();
-			var names = Directory.GetFiles(ImagePath, "*", SearchOption.TopDirectoryOnly);
+
+			/*var files = 
+				new DirectoryInfo(StorageRoot)
+				.GetFiles("*", SearchOption.TopDirectoryOnly)
+				.Where(f=>f.Attributes.HasFlag(FileAttributes.Hidden));*/
+
+			var names = Directory
+				.GetFiles(StorageRoot, "*", SearchOption.TopDirectoryOnly);
 
 			foreach (var name in names)
 				FileList.Add(new FilesStatus(new FileInfo(name)));
