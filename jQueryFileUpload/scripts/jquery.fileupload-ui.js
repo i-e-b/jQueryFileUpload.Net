@@ -204,35 +204,6 @@
             }
         },
 
-        // Scales the given image (img HTML element)
-        // using the given options.
-        // Returns a canvas object if the canvas option is true
-        // and the browser supports canvas, else the scaled image:
-        _scaleImage: function (img, options) {
-            options = options || {};
-            var canvas = document.createElement('canvas'),
-                scale = Math.min(
-                    (options.maxWidth || img.width) / img.width,
-                    (options.maxHeight || img.height) / img.height
-                );
-            if (scale >= 1) {
-                scale = Math.max(
-                    (options.minWidth || img.width) / img.width,
-                    (options.minHeight || img.height) / img.height
-                );
-            }
-            img.width = parseInt(img.width * scale, 10);
-            img.height = parseInt(img.height * scale, 10);
-            if (!options.canvas || !canvas.getContext) {
-                return img;
-            }
-            canvas.width = img.width;
-            canvas.height = img.height;
-            canvas.getContext('2d')
-                .drawImage(img, 0, 0, img.width, img.height);
-            return canvas;
-        },
-
         _createObjectURL: function (file) {
             var undef = 'undefined',
                 urlAPI = (typeof window.createObjectURL !== undef && window) ||
@@ -262,29 +233,6 @@
                 return true;
             }
             return false;
-        },
-
-        // Loads an image for a given File object.
-        // Invokes the callback with an img or optional canvas
-        // element (if supported by the browser) as parameter:
-        _loadImage: function (file, callback, options) {
-            var that = this,
-                url,
-                img;
-            if (!options || !options.fileTypes ||
-                    options.fileTypes.test(file.type)) {
-                url = this._createObjectURL(file);
-                img = $('<img>').bind('load', function () {
-                    $(this).unbind('load');
-                    that._revokeObjectURL(url);
-                    callback(that._scaleImage(img[0], options));
-                }).prop('src', url);
-                if (!url) {
-                    this._loadFile(file, function (url) {
-                        img.prop('src', url);
-                    });
-                }
-            }
         },
 
         // Link handler, that allows to download files
@@ -406,20 +354,6 @@
                     text: false,
                     icons: {primary: 'ui-icon-cancel'}
                 });
-            tmpl.find('.preview').each(function (index, node) {
-                that._loadImage(
-                    files[index],
-                    function (img) {
-                        $(img).hide().appendTo(node).fadeIn();
-                    },
-                    {
-                        maxWidth: options.previewMaxWidth,
-                        maxHeight: options.previewMaxHeight,
-                        fileTypes: options.previewFileTypes,
-                        canvas: options.previewAsCanvas
-                    }
-                );
-            });
             return tmpl;
         },
 

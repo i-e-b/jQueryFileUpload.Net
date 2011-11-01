@@ -16,13 +16,16 @@
 <head>
 <meta charset="utf-8">
 <title>jQuery File Upload Example</title>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme">
-<link rel="stylesheet" href="styles/jquery.fileupload-ui.css">
-<link rel="stylesheet" href="styles/style.css">
+<!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme" />
+<link rel="stylesheet" href="styles/jquery.fileupload-ui.css" />
+<link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
 <div id="fileupload">
-    <form action="FileTransferHandler.ashx" method="POST" enctype="multipart/form-data">
+    <form action="FileTransferHandler.ashx" method="post" enctype="multipart/form-data">
         <div class="fileupload-buttonbar">
             <label class="fileinput-button">
                 <span>Add files...</span>
@@ -30,7 +33,7 @@
             </label>
        <%-- <button type="submit" class="start">Start upload</button>
             <button type="reset" class="cancel">Cancel upload</button> --%>
-            <button type="button" class="delete">Delete all files</button>
+            <button type="button" class="delete button">Delete all files</button>
 			<div class="fileupload-progressbar"></div>
         </div>
     </form>
