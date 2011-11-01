@@ -35,17 +35,6 @@
             // The regular expression for allowed file types, matches
             // against either file type or file name:
             acceptFileTypes:  /.+$/i,
-            // The regular expression to define for which files a preview
-            // image is shown, matched against the file type:
-            previewFileTypes: /^image\/(gif|jpeg|png)$/,
-            // The maximum width of the preview images:
-            previewMaxWidth: 80,
-            // The maximum height of the preview images:
-            previewMaxHeight: 80,
-            // By default, preview images are displayed as canvas elements
-            // if supported by the browser. Set the following option to false
-            // to always display preview images as img elements:
-            previewAsCanvas: true,
             // The file upload template that is given as first argument to the
             // jQuery.tmpl method to render the file uploads:
             uploadTemplate: $('#template-upload'),

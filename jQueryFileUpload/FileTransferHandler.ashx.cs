@@ -6,9 +6,6 @@ using System.Web;
 using System.Web.Script.Serialization;
 
 namespace jQueryUploadTest {
-	/// <summary>
-	/// Summary description for ImageUpload
-	/// </summary>
 	public class FileTransferHandler : IHttpHandler {
 		private readonly JavaScriptSerializer js = new JavaScriptSerializer();
 

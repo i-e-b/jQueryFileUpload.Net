@@ -104,7 +104,7 @@
                 data.submit();
             },
             
-            // Other callbacks:
+            // Other callbacks: (uncomment to enable)
             // Callback for the start of each file upload request:
             // send: function (e, data) {}, // .bind('fileuploadsend', func);
             // Callback for successful uploads:

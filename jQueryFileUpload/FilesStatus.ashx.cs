@@ -1,9 +1,6 @@
 ﻿using System.IO;
 
 namespace jQueryUploadTest {
-	/// <summary>
-	/// Uploaded Files
-	/// </summary>
 	public class FilesStatus {
 		public const string HandlerPath = "/";
 
@@ -20,18 +17,18 @@ namespace jQueryUploadTest {
 
 		public FilesStatus () { }
 
-		public FilesStatus (FileInfo fileInfo) { this.SetValues(fileInfo.Name, (int)fileInfo.Length); }
+		public FilesStatus (FileInfo fileInfo) { SetValues(fileInfo.Name, (int)fileInfo.Length); }
 
-		public FilesStatus (string FileName, int FileLength) { this.SetValues(FileName, FileLength); }
+		public FilesStatus (string fileName, int fileLength) { SetValues(fileName, fileLength); }
 
-		private void SetValues (string FileName, int FileLength) {
-			name = FileName;
+		private void SetValues (string fileName, int fileLength) {
+			name = fileName;
 			type = "image/png";
-			size = FileLength;
+			size = fileLength;
 			progress = "1.0";
-			url = HandlerPath + "FileTransferHandler.ashx?f=" + FileName;
-			thumbnail_url = HandlerPath + "Thumbnail.ashx?f=" + FileName;
-			delete_url = HandlerPath + "FileTransferHandler.ashx?f=" + FileName;
+			url = HandlerPath + "FileTransferHandler.ashx?f=" + fileName;
+			thumbnail_url = HandlerPath + "Thumbnail.ashx?f=" + fileName;
+			delete_url = HandlerPath + "FileTransferHandler.ashx?f=" + fileName;
 			delete_type = "DELETE";
 		}
 	}

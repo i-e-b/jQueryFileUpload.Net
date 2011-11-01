@@ -31,8 +31,6 @@
                 <span>Add files...</span>
                 <input type="file" name="files[]" multiple="multiple" />
             </label>
-       <%-- <button type="submit" class="start">Start upload</button>
-            <button type="reset" class="cancel">Cancel upload</button> --%>
             <button type="button" class="delete button">Delete all files</button>
 			<div class="fileupload-progressbar"></div>
         </div>
