@@ -103,9 +103,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script src="scripts/jquery.iframe-transport.js"></script>
-<script src="scripts/jquery.fileupload.js"></script>
-<script src="scripts/jquery.fileupload-ui.js"></script>
-<script src="scripts/application.js"></script>
+<script src="scripts/Default/jquery.iframe-transport.js"></script>
+<script src="scripts/Default/jquery.fileupload.js"></script>
+<script src="scripts/Default/jquery.fileupload-ui.js"></script>
+<script src="scripts/Default/application.js"></script>
 </body> 
 </html>

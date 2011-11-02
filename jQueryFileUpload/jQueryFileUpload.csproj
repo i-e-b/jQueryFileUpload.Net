@@ -50,22 +50,24 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Custom.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="images\pbar-ani.gif" />
     <Content Include="styles\jquery.fileupload-ui.css" />
-    <Content Include="scripts\jquery.fileupload-ui.js" />
-    <Content Include="scripts\jquery.fileupload.js" />
-    <Content Include="scripts\jquery.iframe-transport.js" />
-    <Content Include="scripts\application.js" />
+    <Content Include="scripts\Default\jquery.fileupload-ui.js" />
+    <Content Include="scripts\Default\jquery.fileupload.js" />
+    <Content Include="scripts\Default\jquery.iframe-transport.js" />
+    <Content Include="scripts\Default\application.js" />
     <Content Include="styles\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom.aspx.cs">
+      <DependentUpon>Custom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="FilesStatus.ashx.cs" />
@@ -85,7 +87,7 @@
     <Content Include="Thumbnail.ashx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="scripts\Custom\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
