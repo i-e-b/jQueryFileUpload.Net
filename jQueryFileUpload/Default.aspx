@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="jQueryUploadTest._Default" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.UI.Page" %>
 <!DOCTYPE HTML>
 <!--
 /*
@@ -20,8 +20,8 @@
 <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme" />
-<link rel="stylesheet" href="styles/jquery.fileupload-ui.css" />
-<link rel="stylesheet" href="styles/style.css" />
+<link rel="stylesheet" href="styles/Default/jquery.fileupload-ui.css" />
+<link rel="stylesheet" href="styles/Default/style.css" />
 </head>
 <body>
 <div id="fileupload">

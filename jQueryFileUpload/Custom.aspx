@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Custom.aspx.cs" Inherits="jQueryUploadTest.Custom" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.UI.Page" %>
 <!DOCTYPE HTML>
 <html lang="en" class="no-js">
 <head>
@@ -7,6 +7,7 @@
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
+<link rel="stylesheet" href="styles/Custom/style.css" />
 </head>
 <body>
 <div id="fileupload">
@@ -40,6 +41,11 @@
 		</table>
 	</div>
 </div>
-<!-- TODO: upload and scaffolding scripts here! -->s
+<!-- TODO: upload and scaffolding scripts here! -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script src="scripts/Custom/jquery.iframe-transport.js"></script>
+
+
+<script src="scripts/Custom/jquery.fileupload.bootstrap.js"></script> <!-- always the last script! -->
 </body> 
 </html>
