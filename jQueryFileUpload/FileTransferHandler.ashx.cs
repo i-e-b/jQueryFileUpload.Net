@@ -50,7 +50,7 @@ namespace jQueryUploadTest {
 			}
 		}
 
-		private void ReturnOptions(HttpContext context) {
+		private static void ReturnOptions(HttpContext context) {
 			context.Response.AddHeader("Allow", "DELETE,GET,HEAD,POST,PUT,OPTIONS");
 			context.Response.StatusCode = 200;
 		}
@@ -123,7 +123,7 @@ namespace jQueryUploadTest {
 			context.Response.Write(jsonObj);
 		}
 
-		private bool GivenFilename (HttpContext context) {
+		private static bool GivenFilename (HttpContext context) {
 			return !string.IsNullOrEmpty(context.Request["f"]);
 		}
 
@@ -132,7 +132,7 @@ namespace jQueryUploadTest {
 			var filePath = StorageRoot + filename;
 
 			if (File.Exists(filePath)) {
-				context.Response.AddHeader("Content-Disposition", "attachment, filename=\"" + filename + "\"");
+				context.Response.AddHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 				context.Response.ContentType = "application/octet-stream";
 				context.Response.ClearContent();
 				context.Response.WriteFile(filePath);
@@ -149,7 +149,7 @@ namespace jQueryUploadTest {
 					.ToArray();
 
 			string jsonObj = js.Serialize(files);
-			context.Response.AddHeader("Content-Disposition", "inline, filename=\"files.json\"");
+			context.Response.AddHeader("Content-Disposition", "inline; filename=\"files.json\"");
 			context.Response.Write(jsonObj);
 			context.Response.ContentType = "application/json";
 		}
