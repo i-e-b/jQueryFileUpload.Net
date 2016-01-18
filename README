@@ -1,10 +1,3 @@
 A very basic framework around jQueryFileUpload scripts, to host in ASP.Net.
 
-TODO:
-=====
- - Decouple UI from upload handers & templates a bit more? (less hooks by structure, more by class)
- - Section divisions by classifications (different targets, like documents, videos etc)
- - Callbacks for current status (for post-upload processing, like transcodes)
-
- - Ability to add placeholders for required dependencies (like the components of a .ism file)
- - Look at http://sandbox.knarly.com/js/dropfiles/ for IE9 file drop?
+This project is no longer maintained. Please see https://github.com/blueimp/jQuery-File-Upload/wiki#aspnet for alternatives, or one of this project's forks.
